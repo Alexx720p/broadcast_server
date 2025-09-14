@@ -14,9 +14,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             'connected_at': str(datetime.utcnow()),
             'username': 'Anonymus'
         })
-        # print(f'Connected: ', self.channel_name)
         print(f'websocket connected: {self.channel_name}')
-
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard('chat_group', self.channel_name)
@@ -42,34 +40,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         except Exception as e:
             await self.send_json({'error': f'Unexpected error: {str(e)}'})
 
-# class ChatConsumer(AsyncJsonWebsocketConsumer):
-#     async def connect(self):
-#         await self.channel_layer.group_add('chat_group', self.channel_name)
-#         await self.accept()
-
-#     async def disconnect(self, close_code):
-#         await self.channel_layer.group_discard('chat_group', self.channel_name)
-
-    # async def receive(self, text_data):
-    #     try:
-    #         data = json.loads(text_data)
-    #         message = data.get('message', None)
-    #         user = data.get('user', 'Anonymus')
-
-    #         if not message:
-    #             await self.send_json({'error': 'Missing message field'})
-    #             return
-
-    #         await self.channel_layer.group_send('chat_group',{'type': 'chat_message',
-    #             'user': user, 'message': message
-    #             })
-
-    #     except json.JSONDecodeError:
-    #         await self.send_json({'error': 'Invalid JSON format'})
-    #     except Exception as e:
-    #         await self.send_json({'error': f'Unexpected error: {str(e)}'})
-
     async def chat_message(self, event):
         await self.send_json({
             'message': event['message']
         })
+
+    async def server_shutdown(self, event):
+        message = event['message']
+        await self.send(text_data=message)
