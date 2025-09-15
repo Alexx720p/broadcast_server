@@ -2,9 +2,6 @@ from django.core.management.base import BaseCommand
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
-# from django.core.management.base import BaseCommand
-# from .consumers import shutdown_message
-# import asyncio
 
 class Command(BaseCommand):
     help = 'Broadcasts shutdown message to all connected clients'
