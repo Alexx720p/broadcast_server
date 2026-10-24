@@ -1,14 +1,44 @@
-https://roadmap.sh/projects/broadcast-server
+# Broadcast Server
+https://roadmap.sh/projects/broadcast-server  
+A real-time WebSocket broadcast server with Django Channels, Redis and Daphne. Messages sent by one user are broadcast to all connected users.
 
-I used Django, Django Channels, Redis and Daphne in this project, so you will likely need to install them if you want to test it, all requirements needed included in requirements.txt which you can install by running the following command:
-> pip install -r requirements.txt
+## Tech Stack
+- Python
+- Django
+- Django Channels
+- Redis
+- Daphne
 
-I personally used Apidog to test it with the following url: ws://localhost:8000/ws/chat/
+## Features
+- Real-time WebSocket communication
+- Message broadcasting
+- Redis-backed channel layer
+- Graceful shutdown notifications
 
-To run the server:
-> daphne broadcast_server.asgi:application
+### Prerequisites
+Python 3.12+  
+Redis
 
-To send a message you can send a JSON with a "message" field
+### Installation
+Clone the repository:  
+>bash: `git clone https://github.com/Alexx720p/broadcast_server.git`  
+>bash: `cd broadcast_server`
 
-You can run the following command in the terminal to notify the users that you are about to shut down the server:
-> python manage.py utils
+### Install dependencies  
+>bash: `pip install -r requirements.txt`
+
+### Running the server
+*Start Redis before running the app (a Docker Redis image can be used for that purpose)*    
+
+Then:  
+>Bash: `daphne broadcast_server.asgi:application`
+
+**WebSocket endpoint:**
+ws://localhost:8000/ws/chat/
+
+**Send a message:**  
+>JSON: {"message": "Hello everyone"}  
+
+### Server shutdown notification
+Broadcasts a shutdown notification to all connected users before the server stops  
+>Bash: `python manage.py utils`
