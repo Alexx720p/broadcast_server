@@ -28,7 +28,8 @@ Clone the repository:
 >bash: `pip install -r requirements.txt`
 
 ### Running the server
-*Start Redis before running the app (a Docker Redis image can be used for that purpose)*    
+*Start Redis before running the app (a Docker Redis image can be used for that purpose)*  
+*Ensure port 6379 is available and that the application configuration points to the correct Redis host and port*
 
 Then:  
 >Bash: `daphne broadcast_server.asgi:application`
