@@ -1,6 +1,6 @@
 # Broadcast Server
 https://roadmap.sh/projects/broadcast-server  
-A real-time WebSocket broadcast server with Django Channels, Redis and Daphne. Messages sent by one user are broadcast to all connected users.
+A real-time WebSocket broadcast server with Django Channels, Redis and Daphne that lets users to connect and send messages that are broadcasted to all connected users.
 
 ## Tech Stack
 - Python
@@ -34,12 +34,16 @@ Clone the repository:
 Then:  
 >Bash: `daphne broadcast_server.asgi:application`
 
-**WebSocket endpoint:**
+**WebSocket endpoint to connect:**
 ws://localhost:8000/ws/chat/
 
-**Send a message:**  
+**To send a message:**  
 >JSON: {"message": "Hello everyone"}  
 
 ### Server shutdown notification
 Broadcasts a shutdown notification to all connected users before the server stops  
 >Bash: `python manage.py utils`
+
+
+## Architecture
+Client -> Daphne (ASGI Server) -> Django Channels -> Chat Consumer -> Redis Channel Layer (Broadcasting messaging) -> Redis Client (connection tracking and metadata)
